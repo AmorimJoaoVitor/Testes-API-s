@@ -1,0 +1,329 @@
+
+<!doctype html>
+<html>
+
+<head>
+	<title>Dashboard Medley</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="http://www.chartjs.org/dist/2.7.1/Chart.js"></script>
+	<script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+	<link rel="stylesheet" href="CSS/styledash.css">
+	<style>
+		canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="navbar">
+		<div class="container_navbar">
+			<a href="../Prototipo Site/Index.html"><img src="../Prototipo Site/Imagens/LogoTerm.png" alt="Logo"></a>
+			<ul>
+				<li>Dashboard</li> 
+				<li>Suporte</li>
+				<li>Relatório</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="navbar_empresa">
+		<div class="container_empresa">
+		<img src="../Prototipo Site/Imagens/Medley.png" alt="empresa">
+		<p id="email_empresa">adm@medley.com.br</p>
+	</div>
+</div>
+
+	<div class="container_graficos">
+<div class="grafico">
+	
+	<select class="slc_camaras">
+		<option value="cam1">Câmara 1</option>
+		<option value="cam2">Câmara 2</option>
+		<option value="cam3">Câmara 3</option>
+		<option value="cam4">Câmara 4</option>
+	</select>
+
+	<div style="width:120%;">
+		<canvas id="chart"></canvas>
+	</div>
+
+	<section style="height: 100px;">
+		
+		<h2 style="float: left;margin: 0 70px 0px 55px;">Atual: <label id='average'>0.00</label></h2>
+		<h2 style="margin: 0;">Média Hora: <label id='averageHour'>0.00</label></h2>
+		
+	</section>
+</div>
+
+	<br>
+	<br>
+
+	<div class="grafico" id="graf">
+	
+		<select class="slc_camaras">
+			<option value="cam1">Câmara 1</option>
+			<option value="cam2">Câmara 2</option>
+			<option value="cam3">Câmara 3</option>
+			<option value="cam4">Câmara 4</option>
+		</select>
+
+	<div style="width:120%;">
+		<canvas id="chart2"></canvas>
+	</div>
+
+	<section style="height: 100px;">
+		
+		<h2 style="float: left;margin: 0 70px 0px 55px;">Atual: <label id='average'>0.00</label></h2>
+		<h2 style="margin: 0;">Média Hora: <label id='averageHour'>0.00</label></h2>
+		
+	</section>
+</div>
+</div>
+ 
+	<script>
+		var config_1 = {
+		type: 'line',
+		data: {
+			labels: [],
+			datasets: [{
+				label: 'Temperatura',
+				backgroundColor: window.chartColors.blue,
+				borderColor: window.chartColors.blue,
+				data: [],
+				fill: false,
+			}]
+		},
+		options: {
+			responsive: true,
+			title: {
+				display: true,
+				text: 'Gráfico de histórico de temperatura'
+			},
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'nearest',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Horário da Leitura'
+					}
+				}],
+				yAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'ºC'
+					}
+				}]
+			}
+		}
+	};
+
+	var config_2 = {
+		type: 'line',
+		data: {
+			labels: [],
+			datasets: [{
+				label: 'Temperatura',
+				backgroundColor: window.chartColors.red,
+				borderColor: window.chartColors.red,
+				data: [],
+				fill: false,
+			}]
+		},
+		options: {
+			responsive: true,
+			title: {
+				display: true,
+				text: 'Gráfico de histórico de temperatura'
+			},
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'nearest',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Horário da Leitura'
+					}
+				}],
+				yAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'ºC'
+					}
+				}]
+			}
+		}
+	};
+	// esse "sortearTemperatura()" será desnecessário quando usarmos o backend futuramente
+	function sortearTemperatura(min, max) {
+		
+		min = typeof min == 'undefined' ? 2 : min;
+    	max = typeof max == 'undefined' ? 8: max;
+    
+    	let random = Math.random() * (max - min) + min;
+
+    	return random
+	}
+
+	function recuperarDadosIniciais() {
+
+		// esse "registros" será recuperado do backend futuramente
+		var registros = [
+			{
+				momento: '00:03:00',
+				leitura: sortearTemperatura()
+			},
+			{
+				momento: '00:05:00',
+				leitura: sortearTemperatura()
+			},
+			{
+				momento: '00:07:00',
+				leitura: sortearTemperatura()
+			},
+			{
+			momento: '00:09:00',
+				leitura: sortearTemperatura()
+			}
+		];
+		
+// registrar dados do segundo grafico
+		var registros2 = [
+		{
+				momento: '00:03:00',
+				leitura: sortearTemperatura()
+			},
+			{
+				momento: '00:05:00',
+				leitura: sortearTemperatura()
+			},
+			{
+				momento: '00:07:00',
+				leitura: sortearTemperatura()
+			},
+			{
+			momento: '00:09:00',
+				leitura: sortearTemperatura()
+			}
+			
+		];
+
+		var contador = 0;
+
+		// registros.length é a quantidade de itens em "registros"
+		while (contador < registros.length) {
+
+			config_2.data.labels.push(registros2[contador].momento);  // incluir um novo momento
+			config_2.data.datasets[0].data.push(registros2[contador].leitura);  // incluir uma nova leitura
+
+			config_1.data.labels.push(registros[contador].momento);  // incluir um novo momento
+			config_1.data.datasets[0].data.push(registros[contador].leitura);  // incluir uma nova leitura
+
+			contador++;
+		}
+
+	}
+
+	function receberNovasLeituras() {
+		setTimeout(() => {
+			
+			// esses "agora" etc até "momentos" serão desnecessários quando usarmos o backend futuramente
+			var agora = new Date();
+			var hora = agora.getHours();
+			var minuto = agora.getMinutes();
+			var segundo = agora.getSeconds();
+			var momento = `${hora>9?'':'0'}${hora}:${minuto>9?'':'0'}${minuto}:${segundo>9?'':'0'}${segundo}`;
+
+			// esse "novoRegistro" será recuperado do backend futuramente
+			var novoRegistro = {
+				momento: momento,
+				leitura: sortearTemperatura()
+			};
+			
+			// tirando e colocando valores no gráfico
+			config.data.labels.shift(); // apagar o primeiro
+			config.data.labels.push(novoRegistro.momento); // incluir um novo momento
+			config.data.datasets[0].data.shift();  // apagar o primeiro
+			config.data.datasets[0].data.push(novoRegistro.leitura); // incluir uma nova leitura
+
+			// Atualiza o gráfico
+			window.graficoLinha.update();	
+
+			// agendar a chamada da mesma função para daqui a 7 segundos
+			receberNovasLeituras();	
+
+		}, 7000); // 7000 ms -> 7 segundos
+	}
+
+	function plotarGrafico() {
+		// chamar os 7 últimos registros de leitura
+		recuperarDadosIniciais();
+
+		// criação do gráfico na página
+		var ctx_1 = document.getElementById('chart').getContext('2d');
+		window.graficoLinha = new Chart(ctx_1, config_1);
+
+		var ctx_2 = document.getElementById('chart2').getContext('2d');
+		window.graficoLinha = new Chart(ctx_2, config_2);
+
+
+		// função que agenda a recuperação da última leitura para daqui a 7 segundos
+		//receberNovasLeituras();
+	}
+
+	// indicando que a função "plotarGrafico" será invocada assim que a página carregar
+	window.onload = plotarGrafico;
+
+	</script>
+
+</body>
+
+<footer>
+    <div class="rodape">
+
+        <div class="logo_rod">
+            <img src="../Prototipo Site/Imagens/LogoSemFundo.png" alt="logo">
+            <p>Soluções inteligentes em monitoramento de temperatura no armazenamento dos termolábeis
+            </p>
+        </div>
+        <div class="endereco">
+            <h5>Endereço</h5>
+            <p>Rua Haddock Lobo 595</p>
+            <p> Cerqueira César - São Paulo-SP</p>
+            <p>01414-001</p>
+
+
+        </div>
+        <div class="icones">
+            <h5>Siga-nos em nossas redes sociais</h5>
+            <img src="../Prototipo Site/Imagens/insta.jpg" alt="instagram">
+            <img src="../Prototipo Site/Imagens/face.png" alt="face">
+            <img src="../Prototipo Site/Imagens/twitter.jpg" alt="twitter">
+			<a target="_blank" href="https://github.com/BandTec/TermoLabs"><img
+                src="../Prototipo Site/Imagens/git.jpg" alt="git"></a>
+        </div>
+
+    </div>
+</footer>
+
+</html>

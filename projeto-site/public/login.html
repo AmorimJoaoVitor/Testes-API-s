@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+  
+
+    <div class="navbar">
+        <div class="container">
+            <img src="Imagens/LogoSemFundo.png">
+            <ul>
+                <li> <a href="Index.html"> Home </a></li>
+                <li> <a href="sobre.html"> Sobre</a> </li>
+                <li> <a href="trabalhe_conosco.html"> Trabalhe conosco</a> </li>
+                <li> <a href="simulador.html"> Simulador Financeiro</a> </li>
+                <li> <a href="contato.html"> Contato</a> </li>
+                <li class="current">Login </li>
+                
+            </ul>      
+        </div>
+    </div>
+        <div id="login-container">
+            <h1>Login</h1>
+            <form id="form_login" method="post" onsubmit="return entrar()">
+                
+                <input type="text" placeholder="Digite seu e-email" name="login">
+                <label for="password">Senha</label>
+                <input type="password" name="senha" placeholder="Digite sua senha">
+                <a href="#" id="forgot-pass">Esqueceu a senha?</a>
+                <button id="btn_entrar">Entrar</button>
+                
+            </form>
+            <div id="social-container">
+                <p>Ou entre pelas suas redes sociais</p>
+                <i class="fa fa-facebook-f"></i>
+                <i class="fa fa-linkedin"></i>
+            </div>
+            <div id="register-container">
+                <p>Ainda não tem uma conta?</p>
+                <a href="cadastro.html">Registrar</a>
+            </div>
+                
+        </div>
+
+  <!-- <div class="pag-login">
+    <div class="container">
+        <div class="box-login">
+            <h1>Login</h1>
+
+
+
+            Usuário: -->
+                <!-- <form id="form_login" method="post" onsubmit="return entrar()"> 
+                    <input type="text" class="input-padrao" name="login">
+                    <br>
+                    Senha:
+                    <input type="password" class="input-padrao" name="senha">
+                    <br>
+                     <button id="btn_entrar" class="btn-green">Entrar</button>
+                </form>
+            -->
+                
+            <div class="extra">
+                <div id="div_erro" class="msg_erro">
+                </div>
+
+                <img src="aguarde-orange.gif" id="img_aguarde" style="display: none;">
+                
+            </div>
+            <footer>
+                <div class="rodape">
+            
+                    <div class="logo_rod">
+                        <img src="Imagens/LogoSemFundo.png" alt="logo">
+                        <p>Soluções inteligentes em monitoramento de temperatura no armazenamento dos termolábeis
+                        </p>
+                    </div>
+                    <div class="endereco">
+                        <h5>Endereço</h5>
+                        <p>Rua Haddock Lobo 595</p>
+                        <p> Cerqueira César - São Paulo-SP</p>
+                        <p>01414-001</p>
+            
+            
+                    </div>
+                    <div class="icones">
+                        <h5>Siga-nos em nossas redes sociais</h5>
+                        <img src="Imagens/insta.jpg" alt="instagram">
+                        <img src="imagens/face.png" alt="face">
+                        <img src="Imagens/twitter.jpg" alt="twitter">
+                        <a target="_blank" href="https://github.com/BandTec/TermoLabs"><img
+                            src="Imagens/git.jpg" alt="git"></a>
+                    </div>
+            
+                </div>
+            </footer>
+            <!-- Fim footer -->
+       
+</body>
+
+</html>
+<script>
+
+function entrar() {
+    aguardar();
+    var formulario = new URLSearchParams(new FormData(form_login));
+    fetch("/usuarios/autenticar", {
+        method: "POST",
+        body: formulario
+    }).then(resposta => {
+
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+
+                sessionStorage.login_usuario_meuapp = json.login;
+                sessionStorage.nome_usuario_meuapp = json.nome;
+
+                window.location.href = 'login_cliente.html';
+            });
+
+        } else {
+
+            console.log('Erro de login!');
+
+            resposta.text().then(texto => {
+                console.error(texto);
+                finalizar_aguardar(texto);
+            });
+        }
+    });
+
+    return false;
+}
+
+function aguardar() {
+    btn_entrar.disabled = true;
+    img_aguarde.style.visibility = 'visible';
+    div_erro.style.visibility = 'hidden';
+}
+
+function finalizar_aguardar(resposta) {
+    btn_entrar.disabled = false;
+    img_aguarde.style.visibility = 'hidden';
+    div_erro.style.visibility = 'visible';
+    div_erro.innerHTML = resposta;
+}
+
+</script>
