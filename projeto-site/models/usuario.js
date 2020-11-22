@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 			autoIncrement: true
 		},		
 		nome: {
-			field: 'nome',
+			field: 'email',
 			type: DataTypes.STRING,
 			allowNull: false
 		},

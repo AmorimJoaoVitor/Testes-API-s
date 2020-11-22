@@ -9,25 +9,26 @@
 </head>
 
 <body>
-</head>
-<body>
-    <div class="container">
+    </head>
+
+    <body>
+         <div class="container">
         <div class="form-box">
-            <form action="" method="post">
+             <form id="form_cadastro" method="post" onsubmit="return cadastrar()">
                 <div>
                     <h1>Cadastro do Usuário</h1>
                 </div>
                 <div>
-                    <input type="text" name="nome" placeholder="Informe o seu Login" class="form-input">
+                    <input type="text" name="nome" placeholder="Informe o seu E-mail" class="form-input">
+                </div>
+                <div>
+                    <input type="text" name="login" placeholder="Informe o seu Login" class="form-input">
                 </div>
                 <div>
                     <input type="password" name="senha" placeholder="Informe a sua Senha" class="form-input">
                 </div>
                 <div>
-                    <input type="email" name="email" placeholder="Informe o seu E-mail" class="form-input">
-                </div>
-                <div>
-                    <input onclick="cadastrar()" type="submit" value="Cadastrar" class="form-input">
+                    <input type="submit" id="btn_entrar" value="Cadastrar" class="form-input">
                 </div>
                 <div>
                     Você já tem uma conta? <a href="login.html">Efetue o seu Login</a>
@@ -35,14 +36,76 @@
             </form>
         </div>
     </div>
-</body>
+
+        <!-- <div class="contato">
+        <div class="container">
+            <h1>Faça aqui seu cadastro!</h1>
+            <div class="formulario">
+                <form id="form_cadastro" method="post" onsubmit="return cadastrar()">
+                    email
+                    <input type="text" name="nome" class="input-padrao" autofocus="autofocus" placeholder="Nome e sobrenome" required minlength="4">
+                    
+                    Login
+                    <input type="text" name="login" class="input-padrao" placeholder="seu nome de usuário" required minlength="4">
+                    
+                    Senha
+                    <input type="password" name="senha" class="input-padrao" placeholder="***************" required minlength="4">
+                    
+                        
+                    <input type="submit" id="btn_entrar" value="Cadastrar" class="btn-green">
+                </form>
+
+              
+                
+            </div>
+            <div class="imagem-lateral">
+                <img src="img/side-img-contato_orange.jpg">
+            </div>
+        </div>
+    </div>  -->
+                                        <div id="div_erro" style="background-color: sandybrown; color: maroon; display: none;">
+                                        Erro no cadastro
+                            </div>
+    </body>
+
 </html>
 
 
 <script>
-    function cadastrar(){
-        alert('Cadastro realizado com sucesso!');
-        document.location.reload();
-        
+    function cadastrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(form_cadastro));
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            body: formulario
+        }).then(function (response) {
+
+            if (response.ok) {
+
+                window.location.href = 'login.html';
+
+            } else {
+
+                console.log('Erro de cadastro!');
+                response.text().then(function (resposta) {
+                    div_erro.innerHTML = resposta;
+                });
+                finalizar_aguardar();
+            }
+        });
+
+        return false;
+    }
+
+    function aguardar() {
+        btn_entrar.disabled = true;
+
+        div_erro.style.display = 'none';
+    }
+
+    function finalizar_aguardar() {
+        btn_entrar.disabled = false;
+
+        div_erro.style.display = 'block';
     }
 </script>
