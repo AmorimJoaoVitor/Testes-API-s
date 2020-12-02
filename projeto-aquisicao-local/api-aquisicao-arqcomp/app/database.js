@@ -1,8 +1,8 @@
 var configuracoes = {
-    server: "SEU_BANCO_DE_DADOS.database.windows.net",
-    user: "SEU_USUARIO",
-    password: "SUA_SENHA",
-    database: "SEU_BANCO_DE_DADOS",
+    server: "bdgrupo08.database.windows.net",
+    user: "termolabs",
+    password: "#Gfgrupo8",
+    database: "BDGrupo08",
     options: {
       encrypt: true,
       enableArithAbort: true,

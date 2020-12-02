@@ -6,7 +6,7 @@ https://codewithhugo.com/sequelize-data-types-a-practical-guide/
 */
 
 module.exports = (sequelize, DataTypes) => {
-    let Leitura = sequelize.define('Leitura',{	
+    let medicao = sequelize.define('medicao',{	
 		id: {
 			field: 'id',
 			type: DataTypes.INTEGER,
@@ -18,13 +18,9 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.REAL,
 			allowNull: false
 		},
-		umidade: {
-			field: 'umidade',
-			type: DataTypes.REAL,
-			allowNull: false
-		},
+		
 		momento: {
-			field: 'momento',
+			field: 'agora',
 			type: DataTypes.DATE, // NÃO existe DATETIME. O tipo DATE aqui já tem data e hora
 			allowNull: false
 		},
@@ -34,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	}, 
 	{
-		tableName: 'leitura', 
+		tableName: 'medicao', 
 		freezeTableName: true, 
 		underscored: true,
 		timestamps: false,
 	});
 
-    return Leitura;
+    return medicao;
 };
