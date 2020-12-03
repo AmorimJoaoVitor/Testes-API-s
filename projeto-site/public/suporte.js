@@ -62,7 +62,7 @@ HelpSpotWidget.Tab = {
 			text_name: 'Seu Nome',
 			text_name_er: 'Please provide your name',
 			text_submit: 'Enviar',
-			text_msg_submit: 'Mensagem enviada, obrigado.',
+			text_msg_submit: 'Ticket enviado, obrigado.',
 			text_msg_submit_error: 'Sorry, there was an error.',
 			text_msg_submit_error_link: 'Please try this form',
 			text_msg_submit_error_url: '',
